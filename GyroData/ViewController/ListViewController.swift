@@ -23,7 +23,7 @@ class ListViewController: UIViewController {
     var coreList = [Run]()
     var container: NSPersistentContainer! //core
     
-    
+          
     //core kx
     var context: NSManagedObjectContext {
         guard let app = UIApplication.shared.delegate as? AppDelegate else {
@@ -133,19 +133,19 @@ class ListViewController: UIViewController {
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return runDataList.count  //더미
+//        return runDataList.count  //더미
         
-//        return coreList.count //core
+        return coreList.count //core
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! CustomCell
-        let list = runDataList[indexPath.row] //더미
-        cell.setModel(model: list) //더미
+//        let list = runDataList[indexPath.row] //더미
+//        cell.setModel(model: list) //더미
         
-//        let recore = coreList[indexPath.row]  // core
-//        cell.leftLabel.text = recore.value(forKey: "timestamp") as? String  //core
-//        cell.centerLabel.text = recore.value(forKey: "gyro") as? String    //core
-//        cell.rightLabel.text = "\(recore.value(forKey: "interval") as? Float)" //core
+        let recore = coreList[indexPath.row]  // core
+        cell.leftLabel.text = recore.value(forKey: "timestamp") as? String  //core
+        cell.centerLabel.text = recore.value(forKey: "gyro") as? String    //core
+        cell.rightLabel.text = "\(recore.value(forKey: "interval") as? Float)" //core
         return cell
         
         
