@@ -10,14 +10,14 @@ import UIKit
 import CoreData
 
 
-struct RunDataList: Codable, Equatable {
-//    static func == (lhs: RunDataList, rhs: RunDataList) -> Bool {
-//
-//    }
-    
+struct RunDataList: Codable {
+   
     let timestamp: String
-    let type: String   //[Acc]
+    let type: String
     let interval: Float
+    let acc: [Acc]
+    let gyro: [Gyro]
+   
 }
 
 class Acc: Codable {
@@ -32,7 +32,7 @@ class Acc: Codable {
     }
 }
 
-class Gyro {
+class Gyro: Codable {
     let x: Float
     let y: Float
     let z: Float

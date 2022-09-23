@@ -9,6 +9,7 @@ import Foundation
 import CoreData
 
 class DataManager {
+    
     static var shared: DataManager = DataManager()
     
     lazy var persistentContainer: NSPersistentContainer = {
@@ -25,11 +26,7 @@ class DataManager {
     var context: NSManagedObjectContext {
         return self.persistentContainer.viewContext
     }
-    
-//    var container: NSPersistentContainer?
-    
-   
-    
+    //코어 안에 있는 놈들 불러온다
     var runkEntity: NSEntityDescription? {
         return NSEntityDescription.entity(forEntityName: "Run", in: context)
     }
@@ -37,21 +34,9 @@ class DataManager {
     func saveToContext() {
         do {
             try context.save()
-
         } catch {
             print(error.localizedDescription)
         }
-    }
-    //Read 구현
-    func fetchRun() -> [Run] {
-        do {
-            let request = Run.fetchRequest()
-            let results = try context.fetch(request)
-            return results
-        } catch {
-            print(error.localizedDescription)
-        }
-        return []
     }
     //Context 저장
     func insertRun(_ notice: RunDataList) {
@@ -63,12 +48,25 @@ class DataManager {
             saveToContext()
         }
     }
+    
+    //Read 구현
+    func fetchRun() -> [Run] {
+        do {
+            let request = Run.fetchRequest()
+            let results = try context.fetch(request)
+            return results
+        } catch {
+            print(error.localizedDescription)
+        }
+        return []
+    }
+    
     //Read 구현
     func getRun() -> [RunDataList] {
         var notices: [RunDataList] = []
         let fetchResults = fetchRun()
         for result in fetchResults {
-            let notice = RunDataList(timestamp: result.timestamp ?? "", type: result.gyro ?? "", interval: 0.0)
+            let notice = RunDataList(timestamp: result.timestamp ?? "", type: result.gyro ?? "", interval: 0.0,acc: [] , gyro: [])
             notices.append(notice)
         }
         return notices

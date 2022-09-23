@@ -52,17 +52,18 @@ class ListViewController: UIViewController {
     func addSetuo() {
         let list = ["Accelerometer", "Gyro", "Accelerometer1"]
         for i in list {
-            self.runDataList.append(RunDataList(timestamp: "2022/09/08 14:52:22", type: "Accelerometer", interval: 11.11))
-            self.runDataList.append(RunDataList(timestamp: "2022/09/09 15:15:11", type: "Gyro", interval: 22.22))
-            self.runDataList.append(RunDataList(timestamp: "2022/09/10 16:33:33", type: "Accelerometer", interval: 33.33))
-            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "Acc", interval: 44.44))
-            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정5", interval: 55.55))
-            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정6", interval: 66.66))
-            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정7", interval: 77.77))
-            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정8", interval: 88.88))
-            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정9", interval: 99.99))
-            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정10", interval: 1.1))
-            
+            self.runDataList.append(RunDataList(timestamp: "123123", type: "asda", interval: 11.11, acc: [], gyro: []))
+            self.runDataList.append(RunDataList(timestamp: "2022/09/08 14:52:22", type: "Accelerometer", interval: 11.11, acc: [], gyro: []))
+//            self.runDataList.append(RunDataList(timestamp: "2022/09/09 15:15:11", type: "Gyro", interval: 22.22))
+//            self.runDataList.append(RunDataList(timestamp: "2022/09/10 16:33:33", type: "Accelerometer", interval: 33.33))
+//            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "Acc", interval: 44.44))
+//            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정5", interval: 55.55))
+//            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정6", interval: 66.66))
+//            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정7", interval: 77.77))
+//            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정8", interval: 88.88))
+//            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정9", interval: 99.99))
+//            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정10", interval: 1.1))
+//
         }
     }
     
@@ -133,19 +134,19 @@ class ListViewController: UIViewController {
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return runDataList.count  //더미
+        return runDataList.count  //더미
         
-        return coreList.count //core
+//        return coreList.count //core
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! CustomCell
-//        let list = runDataList[indexPath.row] //더미
-//        cell.setModel(model: list) //더미
+        let list = runDataList[indexPath.row] //더미
+        cell.setModel(model: list) //더미
         
-        let recore = coreList[indexPath.row]  // core
-        cell.leftLabel.text = recore.value(forKey: "timestamp") as? String  //core
-        cell.centerLabel.text = recore.value(forKey: "gyro") as? String    //core
-        cell.rightLabel.text = "\(recore.value(forKey: "interval") as? Float)" //core
+//        let recore = coreList[indexPath.row]  // core
+//        cell.leftLabel.text = recore.value(forKey: "timestamp") as? String  //core
+//        cell.centerLabel.text = recore.value(forKey: "gyro") as? String    //core
+//        cell.rightLabel.text = "\(recore.value(forKey: "interval") as? Float)" //core
         return cell
         
         
