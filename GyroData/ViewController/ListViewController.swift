@@ -23,13 +23,6 @@ class ListViewController: UIViewController {
     var container: NSPersistentContainer! //core
 
 //    var coreList = [Run]()
-    //core kx
-//    var context: NSManagedObjectContext {
-//        guard let app = UIApplication.shared.delegate as? AppDelegate else {
-//            fatalError()
-//        }
-//        return app.persistentContainer.viewContext
-//    }
     var editTarget: NSManagedObject?
     
     
@@ -37,11 +30,6 @@ class ListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        guard container != nil else {
-//            fatalError("This view needs a persistent container")
-//        }
-        let appDelegata = UIApplication.shared.delegate as! AppDelegate  //앱델리게이트 객체 참조
-        self.container = appDelegata.persistentContainer  //core  관리 객체 켄텍스트 참조
         view.backgroundColor = .white
         layout()
         addNaviBar()
@@ -49,17 +37,52 @@ class ListViewController: UIViewController {
         fetch()
         list = fetch()  // core
         save()
+        fetchRun()
     }
+    
+    
+    //코어 데이터
+        func fetchRun() {
+            let appDelegata = UIApplication.shared.delegate as! AppDelegate  //앱델리게이트 객체 참조
+            //        self.container = appDelegata.persistentContainer  //core  관리 객체 켄텍스트 참조
+            let context = appDelegata.persistentContainer.viewContext
+            do {
+                let contact = try context.fetch(Run.fetchRequest()) as! [Run]
+                contact.forEach {
+                    print($0.timestamp)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+            let hemg = RunDataList(timestamp: "57번오늘", gyro: "57번현중", interval: 5.7)
+            let runkEntity = NSEntityDescription.entity(forEntityName: "Run", in: context)
+            if let entity = runkEntity {
+                let managedObject = NSManagedObject(entity: entity, insertInto: context)
+                managedObject.setValue(hemg.interval, forKey: "interval")
+                managedObject.setValue(hemg.timestamp, forKey: "timestamp")
+                managedObject.setValue(hemg.gyro, forKey: "gyro")
+                do {
+                    try context.save()
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    
+    
+    
+    
+    
     func save() {
         print("save 클릭")
-        let person = RunDataList(timestamp: "test", gyro: "test", interval: 111.1)
-        DataManager.shared.saveToContext(run: person)
+        let person = RunDataList(timestamp: "77번timetest", gyro: "77번gyrotest", interval: 7.8)
+        DataManager.shared.saveToContext()
     }
     
     
     
     func addSetuo() {
-        runDataList.append(.init(timestamp: "aa", gyro: "aa", interval: 1.1))
+        runDataList.append(.init(timestamp: "time", gyro: "gyro", interval: 1.1))
     }
     
     func fetch() -> [NSManagedObject] {
@@ -132,9 +155,9 @@ class ListViewController: UIViewController {
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return runDataList.count  //더미
+        return runDataList.count  //더미
         
-        return coreList.count //core
+//        return coreList.count //core
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! CustomCell
