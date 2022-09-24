@@ -15,15 +15,13 @@ class ListViewController: UIViewController {
         let tableView = UITableView()
         return tableView
     }()
-    var runDataList: [RunDataList] = []
-//    var runData: RunDataList?
+    var runDataList = [RunDataList]()
+    
     lazy var list: [NSManagedObject] = {
         return self.fetch()
     }()
-    var coreList = [Run]()
     var container: NSPersistentContainer! //core
-    
-          
+
     //core kx
     var context: NSManagedObjectContext {
         guard let app = UIApplication.shared.delegate as? AppDelegate else {
@@ -49,22 +47,10 @@ class ListViewController: UIViewController {
         list = fetch()  // core
     }
     
+    
+    
     func addSetuo() {
-        let list = ["Accelerometer", "Gyro", "Accelerometer1"]
-        for i in list {
-            self.runDataList.append(RunDataList(timestamp: "123123", type: "asda", interval: 11.11, acc: [], gyro: []))
-            self.runDataList.append(RunDataList(timestamp: "2022/09/08 14:52:22", type: "Accelerometer", interval: 11.11, acc: [], gyro: []))
-//            self.runDataList.append(RunDataList(timestamp: "2022/09/09 15:15:11", type: "Gyro", interval: 22.22))
-//            self.runDataList.append(RunDataList(timestamp: "2022/09/10 16:33:33", type: "Accelerometer", interval: 33.33))
-//            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "Acc", interval: 44.44))
-//            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정5", interval: 55.55))
-//            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정6", interval: 66.66))
-//            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정7", interval: 77.77))
-//            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정8", interval: 88.88))
-//            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정9", interval: 99.99))
-//            self.runDataList.append(RunDataList(timestamp: "yyyy/MM/dd HH:mm:ss", type: "측정10", interval: 1.1))
-//
-        }
+        runDataList.append(.init(timestamp: "aa", gyro: "aa", interval: 1.1))
     }
     
     func fetch() -> [NSManagedObject] {
@@ -105,7 +91,7 @@ class ListViewController: UIViewController {
         })
         actions1.backgroundColor = .systemRed
        //딜리트 구현?
-        //샬라샬라  딜리트올 아니고 딜리트사용
+        //딜리트올 아니고 딜리트사용
         
         //스왑버튼
         let actions2 = UIContextualAction(style: .normal, title: "Play", handler: { action, view, completionHaldler in
@@ -153,9 +139,6 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        guard let replayViewController = storyboard?.instantiateViewController(withIdentifier: "cell") as? ReplayViewController else { return }
-//        let respone = runDataList[indexPath.row]
-        
         let replayViewController = ReplayViewController()
         self.navigationController?.pushViewController(replayViewController, animated: true)
   

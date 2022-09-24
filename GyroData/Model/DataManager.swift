@@ -38,13 +38,13 @@ class DataManager {
             print(error.localizedDescription)
         }
     }
-    //Context 저장
+    //
     func insertRun(_ notice: RunDataList) {
         if let entity = runkEntity {
             let managedObject = NSManagedObject(entity: entity, insertInto: context)
             managedObject.setValue(notice.interval, forKey: "interval")
             managedObject.setValue(notice.timestamp, forKey: "timestamp")
-            managedObject.setValue(notice.type, forKey: "gyro")
+            managedObject.setValue(notice.gyro, forKey: "gyro")
             saveToContext()
         }
     }
@@ -61,21 +61,22 @@ class DataManager {
         return []
     }
     
-    //Read 구현
-    func getRun() -> [RunDataList] {
-        var notices: [RunDataList] = []
-        let fetchResults = fetchRun()
-        for result in fetchResults {
-            let notice = RunDataList(timestamp: result.timestamp ?? "", type: result.gyro ?? "", interval: 0.0,acc: [] , gyro: [])
-            notices.append(notice)
-        }
-        return notices
-    }
+    
+//    func getRun() -> [RunDataList] {
+//        var notices: [RunDataList] = []
+//        let fetchResults = fetchRun()
+//        for result in fetchResults {
+//            let notice = RunDataList(timestamp: result.timestamp ?? "", gyro: result.gyro ?? "", interval: 0.0)
+//            notices.append(notice)
+//        }
+//        return notices
+//    }
+    
     //update 구현
     func updateRun(_ notice: RunDataList) {
         let fetchResults = fetchRun()
         for result in fetchResults {
-            if result.gyro == notice.type {
+            if result.gyro == notice.gyro {
                 result.timestamp = "업그레이드"
             }
         }
@@ -84,7 +85,7 @@ class DataManager {
     //Delete 구현
     func deleteRun(_ notice: RunDataList) {
         let fetchResults = fetchRun()
-        let notice = fetchResults.filter({ $0.gyro == notice.type })[0]
+        let notice = fetchResults.filter({ $0.gyro == notice.gyro })[0]
         context.delete(notice)
         saveToContext()
     }

@@ -40,7 +40,7 @@ class CustomCell: UITableViewCell {
     
     func setModel(model: RunDataList) {
         leftLabel.text = model.timestamp
-        centerLabel.text = model.type
+        centerLabel.text = model.gyro
         rightLabel.text = "\(model.interval)"
     }
     
