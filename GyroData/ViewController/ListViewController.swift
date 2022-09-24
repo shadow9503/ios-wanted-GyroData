@@ -22,7 +22,7 @@ class ListViewController: UIViewController {
     }()
     var container: NSPersistentContainer! //core
 
-    var coreList = [Run]()
+//    var coreList = [Run]()
     //core kx
 //    var context: NSManagedObjectContext {
 //        guard let app = UIApplication.shared.delegate as? AppDelegate else {
@@ -48,6 +48,12 @@ class ListViewController: UIViewController {
         addSetuo()
         fetch()
         list = fetch()  // core
+        save()
+    }
+    func save() {
+        print("save 클릭")
+        let person = RunDataList(timestamp: "test", gyro: "test", interval: 111.1)
+        DataManager.shared.saveToContext(run: person)
     }
     
     
@@ -91,7 +97,7 @@ class ListViewController: UIViewController {
         //스왑 버튼
         let actions1 = UIContextualAction(style: .normal, title: "Delete", handler: { action, view, completionHaldler in
             completionHaldler(true)
-            DataManager.shared.deleteAllRun()
+//            DataManager.shared.deleteAllRun()
             print("삭제")
         })
         actions1.backgroundColor = .systemRed
@@ -126,9 +132,9 @@ class ListViewController: UIViewController {
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return runDataList.count  //더미
+//        return runDataList.count  //더미
         
-//        return coreList.count //core
+        return coreList.count //core
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! CustomCell
