@@ -4,11 +4,5 @@
         <attribute name="gyro" optional="YES" attributeType="String"/>
         <attribute name="interval" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="String"/>
-        <relationship name="test" optional="YES" maxCount="1" deletionRule="Nullify"/>
-    </entity>
-    <entity name="Test" representedClassName="Test" syncable="YES" codeGenerationType="class">
-        <attribute name="gyro" optional="YES" attributeType="String"/>
-        <attribute name="interval" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="timestamp" optional="YES" attributeType="String"/>
     </entity>
 </model>

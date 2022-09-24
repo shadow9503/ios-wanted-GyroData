@@ -22,13 +22,14 @@ class ListViewController: UIViewController {
     }()
     var container: NSPersistentContainer! //core
 
+    var coreList = [Run]()
     //core kx
-    var context: NSManagedObjectContext {
-        guard let app = UIApplication.shared.delegate as? AppDelegate else {
-            fatalError()
-        }
-        return app.persistentContainer.viewContext
-    }
+//    var context: NSManagedObjectContext {
+//        guard let app = UIApplication.shared.delegate as? AppDelegate else {
+//            fatalError()
+//        }
+//        return app.persistentContainer.viewContext
+//    }
     var editTarget: NSManagedObject?
     
     
@@ -36,7 +37,9 @@ class ListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+//        guard container != nil else {
+//            fatalError("This view needs a persistent container")
+//        }
         let appDelegata = UIApplication.shared.delegate as! AppDelegate  //앱델리게이트 객체 참조
         self.container = appDelegata.persistentContainer  //core  관리 객체 켄텍스트 참조
         view.backgroundColor = .white
@@ -88,6 +91,8 @@ class ListViewController: UIViewController {
         //스왑 버튼
         let actions1 = UIContextualAction(style: .normal, title: "Delete", handler: { action, view, completionHaldler in
             completionHaldler(true)
+            DataManager.shared.deleteAllRun()
+            print("삭제")
         })
         actions1.backgroundColor = .systemRed
        //딜리트 구현?
@@ -98,6 +103,7 @@ class ListViewController: UIViewController {
             completionHaldler(true)
             let secondView = ReplayViewController()   
             self.navigationController?.pushViewController(secondView, animated: true)
+            print("시작")
         })
         actions2.backgroundColor = .systemGreen
         return UISwipeActionsConfiguration(actions: [actions1, actions2])
@@ -108,7 +114,7 @@ class ListViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "측정", style: .plain, target: self, action: #selector(add))
         
         //core kx
-        let newEntity = NSEntityDescription.insertNewObject(forEntityName: "Run", into: context)
+//        let newEntity = NSEntityDescription.insertNewObject(forEntityName: "Run", into: context)
     }
     @objc func add(_ sender: Any) {
         let secondView = MeasurmentViewController()     // 3번째 화면 푸시
