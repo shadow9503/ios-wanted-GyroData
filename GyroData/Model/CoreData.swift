@@ -7,10 +7,10 @@
 
 import Foundation
 import UIKit
-import CoreData
 
 
-struct RunDataList: Codable, Equatable {
+
+struct RunDataList: Codable {
    
     let timestamp: String
     let gyro: String

@@ -10,72 +10,49 @@ import UIKit
 
 class CustomCell: UITableViewCell {
     
-    static let identifier = "cell"
-    
-    var leftLabel: UILabel = {
-        let leftLabel = UILabel()
-        leftLabel.text = "2022/09/20 20:20:20"
-        leftLabel.translatesAutoresizingMaskIntoConstraints = false
-        return leftLabel
+    var dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15)
+        return label
     }()
-    var rightLabel : UILabel = {
-        let rightLabel = UILabel()
-        rightLabel.translatesAutoresizingMaskIntoConstraints = false
-        return rightLabel
+    var timeLabel : UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 40)
+        return label
     }()
-    var centerLabel :UILabel =  {
-        let centerLabel = UILabel()
-        centerLabel.translatesAutoresizingMaskIntoConstraints = false
-        return centerLabel
+    var nameLabel :UILabel =  {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 20)
+        return label
     }()
   lazy  var stackView: UIStackView = {
-        var stackView = UIStackView(arrangedSubviews: [leftLabel, centerLabel])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        var stackView = UIStackView(arrangedSubviews: [dateLabel, nameLabel])
         stackView.axis = .vertical //방향 버티컬 호리즌탈
-        stackView.alignment = .fill
-        stackView.distribution = .fill
         stackView.spacing = 20
         return stackView
     }()
     
-    func setModel(model: RunDataList) {
-        leftLabel.text = model.timestamp
-        centerLabel.text = model.gyro
-        rightLabel.text = "\(model.interval)"
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(leftLabel)
-        contentView.addSubview(rightLabel)
-        contentView.addSubview(centerLabel)
-        contentView.addSubview(stackView)
+        addSubview(timeLabel)
+        addSubview(stackView)
         
-        rightLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -50).isActive = true
-        rightLabel.font = .italicSystemFont(ofSize: 30)
-        rightLabel.font = UIFont.preferredFont(forTextStyle: .title1)
-        leftLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 10).isActive = true
-        leftLabel.font = .italicSystemFont(ofSize: 12)
-        leftLabel.numberOfLines = 0
-        leftLabel.font = UIFont.preferredFont(forTextStyle: .title3)
-        centerLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 10).isActive = true
-        centerLabel.font = .italicSystemFont(ofSize: 22)
-        centerLabel.numberOfLines = 0
-        centerLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-        
-        
-        
-        
+        configure()
+    
     }
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    func configure() {
+        
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        timeLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        timeLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -40).isActive = true
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
     }
 }
