@@ -1,13 +1,11 @@
 //
-//  ListViewController.swift
-//  GyroData
+//  ViewController.swift
+//  GyroExample
 //
-//  Created by 유영훈 on 2022/09/20.
+//  Created by KangMingyo on 2022/09/24.
 //
 
 import UIKit
-import CoreData
-import CoreMotion
 
 class ListViewController: UIViewController {
     

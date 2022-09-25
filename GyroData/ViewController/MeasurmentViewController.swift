@@ -1,15 +1,15 @@
 //
 //  MeasurmentViewController.swift
-//  GyroData
+//  GyroExample
 //
-//  Created by 유영훈 on 2022/09/20.
+//  Created by KangMingyo on 2022/09/24.
 //
 
 import UIKit
 import CoreMotion
 
 class MeasurmentViewController: UIViewController {
-
+    
     //Acc, gyro manager
     let manager = CMMotionManager()
     
@@ -31,7 +31,7 @@ class MeasurmentViewController: UIViewController {
     var zData = [Float]()
 
     // 임시
-    var lineLayer = CAShapeLayer()
+//    var lineLayer = CAShapeLayer()
 
     // x, y, z선을 추가할 layer
     var xLineLayer = CAShapeLayer()
@@ -50,6 +50,8 @@ class MeasurmentViewController: UIViewController {
     var interval: Float = 0.0
     var time: Float = 0.0
     var timeLeft = 600.0
+    
+    var name: String = ""
     
     lazy var saveButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonPressed))
@@ -127,9 +129,12 @@ class MeasurmentViewController: UIViewController {
 
     /// 측정을 위한 타이머 실행
     @objc func measurement() {
+        xData.removeAll()
+        yData.removeAll()
+        zData.removeAll()
+        
         manager.startGyroUpdates()
         manager.startAccelerometerUpdates()
-        
         //업데이트 간격
         manager.accelerometerUpdateInterval = 0.1
         manager.gyroUpdateInterval = 0.1
@@ -146,6 +151,7 @@ class MeasurmentViewController: UIViewController {
                     self.yData.append(Float(y) * 10)
                     self.zData.append(Float(z) * 10)
                     print("x: \(x), y: \(y), z: \(z)")
+                    self.name = "Acceletometer"
                 }
 
             } else {
@@ -158,6 +164,7 @@ class MeasurmentViewController: UIViewController {
                     self.yData.append(Float(y))
                     self.zData.append(Float(z))
                     print("x: \(x), y: \(y), z: \(z)")
+                    self.name = "Gyro"
                 }
             }
         }
@@ -199,7 +206,7 @@ class MeasurmentViewController: UIViewController {
             
             //60초
             timeLeft -= 1
-            print(timeLeft)
+//            print(timeLeft)
         }
     }
 
@@ -258,7 +265,6 @@ class MeasurmentViewController: UIViewController {
         zLine.move(to: CGPoint(x: 5, y: 160))
         
         // 각 선 layer graphView로부터 제거
-        lineLayer.removeFromSuperlayer()
         xLineLayer.removeFromSuperlayer()
         yLineLayer.removeFromSuperlayer()
         zLineLayer.removeFromSuperlayer()
@@ -266,14 +272,25 @@ class MeasurmentViewController: UIViewController {
     }
     
     @objc func saveButtonPressed() {
-        // 데이터 저장
-        if interval == 0 {
-            print(xData)
-            print(yData)
-            print(zData)
-            print(time)
-        } else {
-            let alert = UIAlertController(title: "측정 중 데이터 저장불가", message: "확인을 눌러주새요.", preferredStyle: UIAlertController.Style.alert)
+        if time != 0 && interval == 0 {
+            //coreData에 저장
+            DataManager.shared.addNewSave(name, time, xData, yData: yData, zData: zData)
+            
+            //저장 후 초기화
+            interval = 0
+            time = 0
+            xData.removeAll()
+            yData.removeAll()
+            zData.removeAll()
+            
+        } else if time == 0 && interval == 0 {
+            let alert = UIAlertController(title: "측정을 시작하세요", message: "확인을 눌러주세요.", preferredStyle: UIAlertController.Style.alert)
+            let cancel = UIAlertAction(title: "확인", style: .default, handler: nil)
+            alert.addAction(cancel)
+            present(alert, animated: true, completion: nil)
+        }
+        else {
+            let alert = UIAlertController(title: "측정 중 데이터 저장불가", message: "확인을 눌러주세요.", preferredStyle: UIAlertController.Style.alert)
             let cancel = UIAlertAction(title: "확인", style: .default, handler: nil)
             alert.addAction(cancel)
             present(alert, animated: true, completion: nil)
@@ -295,7 +312,6 @@ class MeasurmentViewController: UIViewController {
             zLine.move(to: CGPoint(x: 5, y: 160))
             
             // 각 선 layer graphView로부터 제거
-            lineLayer.removeFromSuperlayer()
             xLineLayer.removeFromSuperlayer()
             yLineLayer.removeFromSuperlayer()
             zLineLayer.removeFromSuperlayer()
@@ -315,7 +331,6 @@ class MeasurmentViewController: UIViewController {
         if interval == 0 {
             self.shouldHideFirstView = segment.selectedSegmentIndex != 0
         } else {
-            //Alert창 띄워보자
             if accView.isHidden == true {
                 segment.selectedSegmentIndex = 1
             } else {
@@ -326,7 +341,6 @@ class MeasurmentViewController: UIViewController {
             alert.addAction(cancel)
             present(alert, animated: true, completion: nil)
         }
-        
     }
     
     func configure() {
@@ -416,5 +430,3 @@ class GraphView: UIView {
         
     }
 }
-
-

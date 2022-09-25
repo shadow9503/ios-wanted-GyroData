@@ -1,8 +1,8 @@
 //
 //  ReplayViewController.swift
-//  GyroData
+//  GyroExample
 //
-//  Created by 유영훈 on 2022/09/20.
+//  Created by KangMingyo on 2022/09/24.
 //
 
 import UIKit
@@ -13,10 +13,10 @@ class ReplayViewController: UIViewController {
     let graphViewMaker = GraphViewMaker.shared
     
     // TEST
-    var xValue: Float = 0.0
-    var yValue: Float = 0.0
+    var xValue = [Float]()
+    var yValue = [Float]()
     var ySubValue: Float = 0.0
-    var zValue: Float = 0.0
+    var zValue = [Float]()
     
     /// 그래프 뷰의 Height
     let graphViewHeight: CGFloat = 280.0
@@ -108,8 +108,13 @@ class ReplayViewController: UIViewController {
         graphViewMaker.stop()
         graphViewMaker.resetGraph()
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print(xValue)
+        print(yValue)
+        print(zValue)
         
         graphViewMaker.delegate = self
         
