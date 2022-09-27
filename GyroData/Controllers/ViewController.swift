@@ -68,12 +68,14 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
+extension ViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == DataManager.shared.saveList.count - 1 {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let currentOffset = scrollView.contentOffset.y + scrollView.frame.size.height
+        let maxOffset = scrollView.contentSize.height
+        if currentOffset == maxOffset {
             DataManager.shared.fetchSave()
-            tableView.reloadData()
+            self.tableView.reloadData()
         }
     }
 
