@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         let tableView = UITableView()
         return tableView
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -41,8 +41,8 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        DataManager.shared.fetchSave()
-        tableView.reloadData()
+        DataManager.shared.fetchSave() //배열이 데이터로 채우고
+        tableView.reloadData() // 테이블뷰가 업데이트
     }
     
     @objc func add(_ sender: Any) {
@@ -61,7 +61,7 @@ class ViewController: UIViewController {
         tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
-
+    
     func tableViewDelegate() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -78,18 +78,19 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, UIScrollVi
             self.tableView.reloadData()
         }
     }
-
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DataManager.shared.saveList.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
         let target = DataManager.shared.saveList[indexPath.row]
         cell.dateLabel.text = formatter.string(for: target.date)
-        cell.nameLabel.text = target.name
+        cell.nameLabel.text = "\(target.name),\(indexPath.row)"
         cell.timeLabel.text = String(format: "%.1f", target.time)
-
+        
         return cell
     }
     
@@ -110,7 +111,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, UIScrollVi
             tableView.reloadData()
         })
         actions1.backgroundColor = .systemRed
-    
+        
         let actions2 = UIContextualAction(style: .normal, title: "Play", handler: { action, view, completionHaldler in
             completionHaldler(true)
             let secondView = ReplayViewController()
@@ -121,6 +122,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, UIScrollVi
         actions2.backgroundColor = .systemGreen
         return UISwipeActionsConfiguration(actions: [actions1, actions2])
     }
-
-
+    
+    
 }
